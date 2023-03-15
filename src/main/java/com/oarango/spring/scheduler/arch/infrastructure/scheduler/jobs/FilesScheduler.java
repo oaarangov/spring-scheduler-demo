@@ -3,7 +3,7 @@ package com.oarango.spring.scheduler.arch.infrastructure.scheduler.jobs;
 import com.oarango.spring.scheduler.arch.infrastructure.scheduler.jobs.utils.CustomFileFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
-import org.springframework.scheduling.support.PeriodicTrigger;
+import org.springframework.scheduling.support.CronTrigger;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -12,11 +12,11 @@ import javax.annotation.PostConstruct;
 @RequiredArgsConstructor
 public class FilesScheduler {
     private final ThreadPoolTaskScheduler taskScheduler;
-    private final PeriodicTrigger periodicTrigger;
+    private final CronTrigger cronTrigger;
+    private final FtpClient ftpClient;
 
     @PostConstruct
     public void scheduleRunnableWithCronTrigger() {
-        taskScheduler.schedule(new PdfRunnerTask(new CustomFileFilter("pdf")), periodicTrigger);
-        taskScheduler.schedule(new CsvRunnerTask(new CustomFileFilter("csv")), periodicTrigger);
+        taskScheduler.schedule(new pdfRunnerTask(ftpClient, new CustomFileFilter("pdf")), cronTrigger);
     }
 }

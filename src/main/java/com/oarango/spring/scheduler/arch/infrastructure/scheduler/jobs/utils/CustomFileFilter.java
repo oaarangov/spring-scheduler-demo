@@ -14,4 +14,9 @@ public class CustomFileFilter implements FileFilter {
     public boolean accept(File pathname) {
         return pathname.getName().toLowerCase().endsWith(extension);
     }
+
+    @Override
+    public String toString() {
+        return extension;
+    }
 }
